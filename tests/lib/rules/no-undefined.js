@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/no-undefined"),
 
 const errors = [{ message: "Unexpected use of undefined.", type: "Identifier" }];
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-undefined", rule, {
     valid: [
@@ -31,7 +31,11 @@ ruleTester.run("no-undefined", rule, {
         "ndefined",
         "a.undefined",
         "this.undefined",
-        "global['undefined']"
+        "global['undefined']",
+
+        // https://github.com/eslint/eslint/issues/7964
+        "({ undefined: bar })",
+        "({ undefined: bar } = foo)"
     ],
     invalid: [
         { code: "undefined", errors },
@@ -44,6 +48,8 @@ ruleTester.run("no-undefined", rule, {
         { code: "try {} catch(undefined) {}", errors },
         { code: "(function undefined(){}())", errors },
         { code: "undefined = true", errors },
-        { code: "var undefined = true", errors }
+        { code: "var undefined = true", errors },
+        { code: "({ bar: undefined })", errors },
+        { code: "({ bar: undefined } = foo)", errors }
     ]
 });
