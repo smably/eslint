@@ -278,8 +278,6 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
 * `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
 * `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
-* `getTokenOrCommentAfter(nodeOrToken)` - returns the first token or comment after the given node or token.
-* `getTokenOrCommentBefore(nodeOrToken)` - returns the first token or comment before the given node or token.
 
 There are also some properties you can access:
 
