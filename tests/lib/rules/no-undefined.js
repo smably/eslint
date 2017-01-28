@@ -35,7 +35,10 @@ ruleTester.run("no-undefined", rule, {
 
         // https://github.com/eslint/eslint/issues/7964
         "({ undefined: bar })",
-        "({ undefined: bar } = foo)"
+        "({ undefined: bar } = foo)",
+        "({ undefined() {} })",
+        "class Foo { undefined() {} }",
+        "(class { undefined() {} })"
     ],
     invalid: [
         { code: "undefined", errors },
@@ -46,10 +49,21 @@ ruleTester.run("no-undefined", rule, {
         { code: "function f(undefined) {}", errors },
         { code: "var undefined;", errors },
         { code: "try {} catch(undefined) {}", errors },
+        { code: "function undefined() {}", errors },
         { code: "(function undefined(){}())", errors },
         { code: "undefined = true", errors },
         { code: "var undefined = true", errors },
+        { code: "({ undefined })", errors },
         { code: "({ bar: undefined })", errors },
-        { code: "({ bar: undefined } = foo)", errors }
+        { code: "({ bar: undefined } = foo)", errors },
+        { code: "var { undefined } = foo", errors },
+        { code: "var { bar: undefined } = foo", errors },
+        {
+            code: "({ undefined: function undefined() {} })",
+            errors: [Object.assign({}, errors[0], { column: 24 })]
+        },
+        { code: "({ foo: function undefined() {} })", errors },
+        { code: "class Foo { [undefined]() {} }", errors },
+        { code: "(class { [undefined]() {} })", errors }
     ]
 });
