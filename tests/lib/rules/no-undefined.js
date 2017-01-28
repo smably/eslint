@@ -56,6 +56,7 @@ ruleTester.run("no-undefined", rule, {
         { code: "undefined = true", errors },
         { code: "var undefined = true", errors },
         { code: "({ undefined })", errors },
+        { code: "({ [undefined]: foo })", errors },
         { code: "({ bar: undefined })", errors },
         { code: "({ bar: undefined } = foo)", errors },
         { code: "var { undefined } = foo", errors },
