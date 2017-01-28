@@ -2989,6 +2989,17 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { ObjectExpression: "first" }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    bar;
+                }, () => {
+                    baz;
+                })
+            `,
+            options: [4, { CallExpression: { arguments: "first" } }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
