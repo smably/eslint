@@ -3000,6 +3000,40 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { CallExpression: { arguments: "first" } }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                [ foop,
+                  bar ].forEach(function() {
+                    baz;
+                  })
+            `,
+            options: [2, { ArrayExpression: "first", MemberExpression: 1 }]
+        },
+        {
+            code: unIndent`
+                foo = bar[
+                    baz
+                ];
+            `
+        },
+        {
+            code: unIndent`
+                foo[
+                    bar
+                ];
+            `,
+            options: [4, { MemberExpression: 1 }]
+        },
+        {
+            code: unIndent`
+                foo[
+                    (
+                        bar
+                    )
+                ];
+            `,
+            options: [4, { MemberExpression: 1 }]
         }
     ],
 
@@ -6035,6 +6069,31 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { MemberExpression: 1 }],
             errors: expectedErrors([[4, 2, 4, "Identifier"], [5, 0, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                [ foop,
+                  bar ].forEach(function() {
+                  baz;
+                })
+            `,
+            output: unIndent`
+                [ foop,
+                  bar ].forEach(function() {
+                    baz;
+                  })
+            `,
+            options: [2, { ArrayExpression: "first", MemberExpression: 1 }],
+            errors: expectedErrors([[3, 4, 2, "Identifier"], [4, 2, 0, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                foo[
+                    bar
+                    ];
+            `,
+            options: [4, { MemberExpression: 1 }],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         }
     ]
 });
