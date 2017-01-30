@@ -47,6 +47,7 @@ ruleTester.run("no-undefined", rule, {
         { code: "undefined[0]", errors },
         { code: "f(undefined)", errors },
         { code: "function f(undefined) {}", errors },
+        { code: "function f() { var undefined; }", errors },
         { code: "var undefined;", errors },
         { code: "try {} catch(undefined) {}", errors },
         { code: "function undefined() {}", errors },
