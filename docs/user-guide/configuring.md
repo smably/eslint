@@ -709,7 +709,7 @@ module.exports = {
 }
 ```
 
-## Glob Pattern based Configuration
+## Configuration Based on Glob Patterns
 
 Sometimes a more fine-controlled configuration is necessary e.g. if the configuration for files within the same directory has to be different. Therefore you can provide configurations that will only apply to files that match a specific glob pattern (based on [minimatch](https://github.com/isaacs/minimatch)).
 
