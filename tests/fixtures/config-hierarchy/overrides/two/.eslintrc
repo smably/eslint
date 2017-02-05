@@ -3,11 +3,11 @@
         "semi": [2, "never"]
     },
     "overrides": [
-	    {
-	        "files": "child-two.js",
-	        "rules": {
+        {
+            "files": "child-two.js",
+            "rules": {
                 "no-console": 0
-	        }
-	    }
+            }
+        }
     ]
 }
