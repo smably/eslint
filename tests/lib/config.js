@@ -1068,12 +1068,13 @@ describe("Config", () => {
              * @private
              */
             function getFakeFixturePath() {
-                const args = Array.prototype.slice.call(arguments);
+                const args = Array.from(arguments);
 
                 args.unshift("config-hierarchy");
                 args.unshift("fixtures");
                 args.unshift("eslint");
                 args.unshift(process.cwd());
+
                 return path.join.apply(path, args);
             }
 
@@ -1189,6 +1190,28 @@ describe("Config", () => {
                     rules: {
                         quotes: [2, "single"]
                     }
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should support exclusion patterns", () => {
+                const targetPath = getFakeFixturePath("overrides", "one", "child-one.js");
+                const config = new Config({
+                    cwd: getFakeFixturePath("overrides"),
+                    baseConfig: {
+                        overrides: [{
+                            files: ["one/**/*", "!child-one.js"],
+                            rules: {
+                                quotes: [2, "single"]
+                            }
+                        }]
+                    },
+                    useEslintrc: false
+                });
+                const expected = {
+                    rules: {}
                 };
                 const actual = config.getConfig(targetPath);
 
