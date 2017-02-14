@@ -711,20 +711,17 @@ module.exports = {
 
 ## Configuration Based on Glob Patterns
 
-Sometimes a more fine-controlled configuration is necessary e.g. if the configuration for files within the same directory has to be different. Therefore you can provide configurations that will only apply to files that match a specific glob pattern (based on [minimatch](https://github.com/isaacs/minimatch)).
+Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
 ### How it works
 
-* Glob pattern based configurations can only be configured within `.eslintrc` files.
-* The patterns are applied against the file path relative to the directory of the `.eslintrc` file.
-  Example: If your `.eslintrc` file has the path `/Users/john/workspace/any-project/.eslintrc`
-  and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js` then the pattern, provided in `.eslintrc` will be executed against the relative path `lib/util.js`.
-* Glob pattern based configuration has higher precedence than the regular configuration in the same `.eslintrc` file.
-* A glob specific configuration works almost the same as the regular configuration in your `.eslintrc`, except that you can’t define nested glob based configurations or using `extends`.
+* Glob pattern overrides can only be configured within `.eslintrc` files.
+* The patterns are applied against the file path relative to the directory of the `.eslintrc` file. For example, if your `.eslintrc` file has the path `/Users/john/workspace/any-project/.eslintrc` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc` will be executed against the relative path `lib/util.js`.
+* Glob pattern overrides have higher precedence than the regular configuration in the same `.eslintrc` file.
+* A glob specific configuration works almost the same as the regular configuration in your `.eslintrc`, except that you can't define nested glob based configurations or use `extends`.
+* Multiple glob patterns can be provided within a single override block. The associated configuration will be applied to the intersection of the sets of files matched by each of the patterns. In other words, a file must match all the supplied patterns for the configuration to apply.
 
-### Examples
-
-#### Relative relative glob patterns
+### Relative glob patterns
 
 ```
 project-root
@@ -742,10 +739,9 @@ project-root
 ├── .eslintrc
 ```
 
-The config in `app/.eslintrc` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`.
-If you would define the same pattern in the `.eslintrc` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+The config in `app/.eslintrc` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc` file within in the `project-root` folder, it would match all three of the `*Spec` files.
 
-#### Configurations
+### Example configuration
 
 In your `.eslintrc`:
 
